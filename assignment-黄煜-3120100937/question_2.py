@@ -25,7 +25,7 @@ if __name__ == '__main__':
 		uvctr = fget_vctr(uvctr_file1, posi - 500)
 	print("Normal distribution vector:")
 	print(nvctr)
-	print("uniform distribution vector:")
+	print("Uniform distribution vector:")
 	print(uvctr)
 
 	ex,var = get_normal_param(nvctr)

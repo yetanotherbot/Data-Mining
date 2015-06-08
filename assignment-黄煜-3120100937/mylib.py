@@ -6,7 +6,7 @@ def fget_vctr(path, posi):
 	f = open(path, 'r')
 	lines = f.readlines()
 	f.close()
-	return np.array([ float(item) for item in lines[posi * 2 + 1].split(' ') ])
+	return [ float(item) for item in lines[posi * 2 + 1].split(' ') ]
 
 
 def fget_mtrx(path):
@@ -19,7 +19,7 @@ def fget_mtrx(path):
 		if line[0] != ' ':
 			matrix.append( [ float(item) for item in line.split(' ') ] )
 
-	return np.array(matrix)
+	return matrix
 
 
 def my_hist(vector, min_edge = None, max_edge = None, bucket_size = 10, flat_edge = False, title = 'histrogram', **kwargs):
@@ -64,4 +64,19 @@ def get_uniform_param(vector):
 	b = np_vctr.max()
 	return a,b
 
-#def my_DCT_compression(matrix):
+def my_DCT_compression(vector):
+	vector = np.array(vector)
+	k = len(vector)
+	u = []
+
+	for i in range(k):
+		ai = np.sqrt(1/k) if  i == 0 else np.sqrt(2/k)
+		if i == 0:
+			cos_vector = np.array([1] * k).reshape(k, 1)
+		else:
+			cos_vector = np.cos( np.arange(i,(2*k+1)*i,2*i)/(2*k) ).reshape(k, 1)
+		u.append( float(ai * vector.dot(cos_vector)) )
+
+	u = [ (abs(ui / u[0]) > 0.01)*ui for ui in u]
+	return u
+

@@ -18,43 +18,73 @@ if __name__ == '__main__':
 	nvctr = []
 	uvctr = []
 
+	plt.figure(1)
 	for i in range(10):
 		posi = random.randint(0,1000)
 
 		if posi < 500:
 			nvctr.append(fget_vctr(nvctr_file1, posi))
-			uvctr.append(fget_vctr(uvctr_file1, posi))
 		else:
 			nvctr.append(fget_vctr(nvctr_file2, posi - 500))
-			uvctr.append(fget_vctr(uvctr_file1, posi - 500))
 
-		plt.figure(1)
-		plt.subplot(2,5,i+1)
-		my_hist(nvctr[i], bucket_size = 20, flat_edge = True, title = 'normal vector'+str(i+1))
-
-		plt.figure(2)
-		plt.subplot(2,5,i+1)
-		my_hist(uvctr[i], bucket_size = 20, flat_edge = True, title = 'uniform vector'+str(i+1))
-	
-	for i in range(10):
 		ex,var = get_normal_param(nvctr[i])
 		print('expectation = ',end='')
 		print(ex,end='')
 		print(' variance = ', end=''),
 		print(var)
 
+		plt.subplot(2,5,i+1)
+		my_hist(nvctr[i], bucket_size = 20, flat_edge = True, title = 'normal'+str(i+1))
+	
+	plt.show()
+
+	plt.figure(2)
 	for i in range(10):
+		posi = random.randint(0,1000)
+
+		if posi < 500:
+			uvctr.append(fget_vctr(uvctr_file1, posi))
+		else:
+			uvctr.append(fget_vctr(uvctr_file1, posi - 500))
+
 		a,b = get_uniform_param(uvctr[i])
 		print('a = ',end='')
 		print(a,end='')
 		print(' b = ', end=''),
 		print(b)
 
-
-	print(np.linalg.norm(nvctr[0]))
-
+		plt.subplot(2,5,i+1)
+		my_hist(uvctr[i], bucket_size = 20, flat_edge = True, title = 'uniform'+str(i+1))
+	
 	plt.show()
 
-	# Compute norm of all vectors of each data set
-	
+	nnorm = []
+	unorm = []
+
+	nmtrx = fget_mtrx(nvctr_file1) + fget_mtrx(nvctr_file2)
+	umtrx = fget_mtrx(uvctr_file1) + fget_mtrx(uvctr_file2)
+
+	for vctr in nmtrx:
+		nnorm.append(np.linalg.norm(np.array(vctr),2))
+
+	for vctr in umtrx:
+		unorm.append(np.linalg.norm(np.array(vctr),2))
+
+	ex,var = get_normal_param(nnorm)
+	print('expectation = ',end='')
+	print(ex,end='')
+	print(' variance = ', end=''),
+	print(var)
+	plt.figure(3)
+	my_hist(nnorm, bucket_size = 100, flat_edge = True, title = 'histrogram of norm distribution of normal dataset')
+	plt.show()
+
+	a,b = get_uniform_param(unorm)
+	print('a = ',end='')
+	print(a,end='')
+	print(' b = ', end=''),
+	print(b)
+	plt.figure(4)
+	my_hist(unorm, bucket_size = 100, flat_edge = True, title = 'histrogram of norm distribution of uniform dataset')
+	plt.show()
 	
