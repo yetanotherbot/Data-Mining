@@ -76,7 +76,7 @@ if __name__ == '__main__':
 	print(' variance = ', end=''),
 	print(var)
 	plt.figure(3)
-	my_hist(nnorm, bucket_size = 100, flat_edge = True, title = 'histrogram of norm distribution of normal dataset')
+	my_hist(nnorm, bucket_size = 100, flat_edge = True, title = 'histogram of norm distribution of normal dataset')
 	plt.show()
 
 	a,b = get_uniform_param(unorm)
@@ -85,6 +85,6 @@ if __name__ == '__main__':
 	print(' b = ', end=''),
 	print(b)
 	plt.figure(4)
-	my_hist(unorm, bucket_size = 100, flat_edge = True, title = 'histrogram of norm distribution of uniform dataset')
+	my_hist(unorm, bucket_size = 100, flat_edge = True, title = 'histogram of norm distribution of uniform dataset')
 	plt.show()
 	

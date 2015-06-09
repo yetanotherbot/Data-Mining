@@ -64,7 +64,7 @@ def get_uniform_param(vector):
 	b = np_vctr.max()
 	return a,b
 
-def my_DCT_compression(vector):
+def my_DCT_compression(vector, threshold = 0):
 	vector = np.array(vector)
 	k = len(vector)
 	u = []
@@ -77,6 +77,11 @@ def my_DCT_compression(vector):
 			cos_vector = np.cos( np.arange(i,(2*k+1)*i,2*i)/(2*k) ).reshape(k, 1)
 		u.append( float(ai * vector.dot(cos_vector)) )
 
-	u = [ (abs(ui / u[0]) > 0.01)*ui for ui in u]
-	return u
-
+	dimension = 100
+	for i in range(k-1, -1, -1):
+		if abs(u[i]/u[0]) < threshold:
+			u[i] = 0
+		else:
+			dimension = i + 1
+			break
+	return u, dimension
